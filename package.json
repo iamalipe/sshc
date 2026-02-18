@@ -2,12 +2,56 @@
   "name": "sshc",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "bin/sshc.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "ts-node src/index.ts",
+    "dev": "ts-node src/index.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+  "bin": {
+    "sshc": "bin/sshc.js"
+  },
+  "keywords": [
+    "git",
+    "cli",
+    "account-management",
+    "git-user",
+    "git-config",
+    "ssh-key",
+    "multiple-accounts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamalipe/sshc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/iamalipe/sshc/issues"
+  },
+  "homepage": "https://github.com/iamalipe/sshc#readme",
+  "engines": {
+    "node": ">=18"
+  },
+  "author": "Abhiseck Bhattacharya <abhiseck@outlook.com>",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "axios": "^1.13.5",
+    "boxen": "^5.1.2",
+    "chalk": "^4.1.2",
+    "cli-table3": "^0.6.5",
+    "commander": "^14.0.3",
+    "inquirer": "^8.2.7",
+    "keytar": "^7.9.0",
+    "ssh2-promise": "^1.0.3",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.9",
+    "@types/node": "^25.2.3",
+    "@types/ssh2": "^1.15.5",
+    "@types/uuid": "^10.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
 }

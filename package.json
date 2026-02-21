@@ -1,6 +1,6 @@
 {
   "name": "@abhiseck/zssh",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {

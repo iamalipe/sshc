@@ -1,4 +1,4 @@
-import * as chalk from "chalk";
+import chalk from "chalk";
 import Table from "cli-table3";
 import { ConfigManager } from "../lib/config";
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import * as chalk from "chalk";
+import chalk from "chalk";
 import inquirer from "inquirer";
 import { ConfigManager } from "../lib/config";
 

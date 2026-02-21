@@ -38,7 +38,7 @@ const fs = __importStar(require("fs"));
 const os = __importStar(require("os"));
 const path = __importStar(require("path"));
 const crypto_1 = require("./crypto");
-const CONFIG_PATH = path.join(os.homedir(), ".sshc.json");
+const CONFIG_PATH = path.join(os.homedir(), ".zssh.json");
 class ConfigManager {
     constructor() {
         this.masterKey = null;

@@ -1,4 +1,4 @@
-import * as chalk from "chalk";
+import chalk from "chalk";
 import inquirer from "inquirer";
 import { v4 as uuidv4 } from "uuid";
 import { ConfigManager } from "../lib/config";

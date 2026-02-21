@@ -150,7 +150,8 @@ export class ConfigManager {
 
   public getConnection(idOrAlias: string): SSHConnection | undefined {
     return this.config.connections.find(
-      (c) => c.id === idOrAlias || c.alias === idOrAlias,
+      (c) =>
+        c.id === idOrAlias || c.alias.toLowerCase() === idOrAlias.toLowerCase(),
     );
   }
 

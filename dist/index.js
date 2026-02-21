@@ -37,7 +37,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const chalk = __importStar(require("chalk"));
+const chalk_1 = __importDefault(require("chalk"));
 const commander_1 = require("commander");
 const inquirer_1 = __importDefault(require("inquirer"));
 const config_1 = require("./lib/config");
@@ -64,12 +64,12 @@ async function initConfig() {
             configManager.load();
         }
         catch (e) {
-            console.error(chalk.red("Invalid password or corrupted config."));
+            console.error(chalk_1.default.red("Invalid password or corrupted config."));
             process.exit(1);
         }
     }
     else {
-        console.log(chalk.yellow("No existing config found. Initializing..."));
+        console.log(chalk_1.default.yellow("No existing config found. Initializing..."));
         const password = await promptForMasterPassword(true);
         const { confirm } = await inquirer_1.default.prompt([
             {
@@ -80,12 +80,12 @@ async function initConfig() {
             },
         ]);
         if (password !== confirm) {
-            console.error(chalk.red("Passwords do not match."));
+            console.error(chalk_1.default.red("Passwords do not match."));
             process.exit(1);
         }
         configManager.setMasterKey(password);
         configManager.save(); // Create empty encrypted file
-        console.log(chalk.green("Config initialized!"));
+        console.log(chalk_1.default.green("Config initialized!"));
     }
 }
 program

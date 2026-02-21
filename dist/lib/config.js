@@ -158,7 +158,7 @@ class ConfigManager {
         this.save();
     }
     getConnection(idOrAlias) {
-        return this.config.connections.find((c) => c.id === idOrAlias || c.alias === idOrAlias);
+        return this.config.connections.find((c) => c.id === idOrAlias || c.alias.toLowerCase() === idOrAlias.toLowerCase());
     }
     isConfigExists() {
         return fs.existsSync(CONFIG_PATH);

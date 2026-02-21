@@ -3,13 +3,24 @@ import chalk from "chalk";
 import { Command } from "commander";
 import inquirer from "inquirer";
 import { ConfigManager } from "./lib/config";
+import {
+  clearSession,
+  getSessionPassword,
+  saveSessionPassword,
+} from "./lib/session";
 
 const program = new Command();
 const configManager = new ConfigManager();
 
 async function promptForMasterPassword(
   isNew: boolean = false,
+  forcePrompt: boolean = false,
 ): Promise<string> {
+  if (!isNew && !forcePrompt) {
+    const sessionPass = await getSessionPassword();
+    if (sessionPass) return sessionPass;
+  }
+
   const { password } = await inquirer.prompt([
     {
       type: "password",
@@ -23,13 +34,15 @@ async function promptForMasterPassword(
   return password;
 }
 
-async function initConfig() {
+async function initConfig(requirePassword = false) {
   if (configManager.isConfigExists()) {
-    const password = await promptForMasterPassword();
+    const password = await promptForMasterPassword(false, requirePassword);
     configManager.setMasterKey(password);
     try {
       configManager.load();
+      await saveSessionPassword(password);
     } catch (e) {
+      await clearSession();
       console.error(chalk.red("Invalid password or corrupted config."));
       process.exit(1);
     }
@@ -52,6 +65,7 @@ async function initConfig() {
 
     configManager.setMasterKey(password);
     configManager.save(); // Create empty encrypted file
+    await saveSessionPassword(password);
     console.log(chalk.green("Config initialized!"));
   }
 }
@@ -113,7 +127,7 @@ program
   .command("save")
   .description("Save config to GitHub Gist")
   .action(async () => {
-    await initConfig();
+    await initConfig(true);
     const { saveCommand } = await import("./commands/sync");
     await saveCommand(configManager);
   });
@@ -122,7 +136,7 @@ program
   .command("sync")
   .description("Sync config from GitHub Gist")
   .action(async () => {
-    await initConfig();
+    await initConfig(true);
     const { syncCommand } = await import("./commands/sync");
     await syncCommand(configManager);
   });

@@ -1,12 +1,14 @@
 import chalk from "chalk";
-import { spawn } from "child_process";
+import { exec, spawn } from "child_process";
 import { ConfigManager } from "../lib/config";
 
 async function isSshpassInstalled(): Promise<boolean> {
   return new Promise((resolve) => {
-    const check = spawn("command", ["-v", "sshpass"]);
-    check.on("close", (code) => {
-      resolve(code === 0);
+    const isWin = process.platform === "win32";
+    const checkCommand = isWin ? "where sshpass" : "command -v sshpass";
+
+    exec(checkCommand, (error) => {
+      resolve(!error);
     });
   });
 }

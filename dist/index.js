@@ -41,9 +41,15 @@ const chalk_1 = __importDefault(require("chalk"));
 const commander_1 = require("commander");
 const inquirer_1 = __importDefault(require("inquirer"));
 const config_1 = require("./lib/config");
+const session_1 = require("./lib/session");
 const program = new commander_1.Command();
 const configManager = new config_1.ConfigManager();
-async function promptForMasterPassword(isNew = false) {
+async function promptForMasterPassword(isNew = false, forcePrompt = false) {
+    if (!isNew && !forcePrompt) {
+        const sessionPass = await (0, session_1.getSessionPassword)();
+        if (sessionPass)
+            return sessionPass;
+    }
     const { password } = await inquirer_1.default.prompt([
         {
             type: "password",
@@ -56,14 +62,16 @@ async function promptForMasterPassword(isNew = false) {
     ]);
     return password;
 }
-async function initConfig() {
+async function initConfig(requirePassword = false) {
     if (configManager.isConfigExists()) {
-        const password = await promptForMasterPassword();
+        const password = await promptForMasterPassword(false, requirePassword);
         configManager.setMasterKey(password);
         try {
             configManager.load();
+            await (0, session_1.saveSessionPassword)(password);
         }
         catch (e) {
+            await (0, session_1.clearSession)();
             console.error(chalk_1.default.red("Invalid password or corrupted config."));
             process.exit(1);
         }
@@ -85,6 +93,7 @@ async function initConfig() {
         }
         configManager.setMasterKey(password);
         configManager.save(); // Create empty encrypted file
+        await (0, session_1.saveSessionPassword)(password);
         console.log(chalk_1.default.green("Config initialized!"));
     }
 }
@@ -137,7 +146,7 @@ program
     .command("save")
     .description("Save config to GitHub Gist")
     .action(async () => {
-    await initConfig();
+    await initConfig(true);
     const { saveCommand } = await Promise.resolve().then(() => __importStar(require("./commands/sync")));
     await saveCommand(configManager);
 });
@@ -145,7 +154,7 @@ program
     .command("sync")
     .description("Sync config from GitHub Gist")
     .action(async () => {
-    await initConfig();
+    await initConfig(true);
     const { syncCommand } = await Promise.resolve().then(() => __importStar(require("./commands/sync")));
     await syncCommand(configManager);
 });

@@ -8,9 +8,10 @@ const chalk_1 = __importDefault(require("chalk"));
 const child_process_1 = require("child_process");
 async function isSshpassInstalled() {
     return new Promise((resolve) => {
-        const check = (0, child_process_1.spawn)("command", ["-v", "sshpass"]);
-        check.on("close", (code) => {
-            resolve(code === 0);
+        const isWin = process.platform === "win32";
+        const checkCommand = isWin ? "where sshpass" : "command -v sshpass";
+        (0, child_process_1.exec)(checkCommand, (error) => {
+            resolve(!error);
         });
     });
 }

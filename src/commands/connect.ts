@@ -1,5 +1,9 @@
 import chalk from "chalk";
 import { exec, spawn } from "child_process";
+import fs from "fs";
+import os from "os";
+import path from "path";
+import { utils } from "ssh2";
 import { ConfigManager } from "../lib/config";
 
 async function isSshpassInstalled(): Promise<boolean> {
@@ -39,7 +43,53 @@ export async function connectCommand(
 
   // Identity file
   if (conn.privateKeyPath) {
-    args.push("-i", conn.privateKeyPath);
+    let keyPath = conn.privateKeyPath;
+    if (keyPath.toLowerCase().endsWith(".ppk")) {
+      try {
+        let realPath = keyPath;
+        if (realPath.startsWith("~/")) {
+          realPath = path.join(os.homedir(), realPath.slice(2));
+        }
+        const keyData = fs.readFileSync(realPath);
+        const parsedKeys = utils.parseKey(keyData);
+
+        if (parsedKeys instanceof Error) {
+          console.log(
+            chalk.red(`Failed to parse PPK file: ${parsedKeys.message}`),
+          );
+          return;
+        }
+
+        const parsedKey = Array.isArray(parsedKeys)
+          ? parsedKeys[0]
+          : parsedKeys;
+        const tempKeyPath = path.join(os.tmpdir(), `sshc_key_${conn.id}.pem`);
+
+        fs.writeFileSync(tempKeyPath, parsedKey.getPrivatePEM(), {
+          mode: 0o600,
+        });
+        keyPath = tempKeyPath;
+
+        const cleanUp = () => {
+          try {
+            if (fs.existsSync(tempKeyPath)) fs.unlinkSync(tempKeyPath);
+          } catch (e) {}
+        };
+        process.on("exit", cleanUp);
+        process.on("SIGINT", () => {
+          cleanUp();
+          process.exit(0);
+        });
+        process.on("SIGTERM", () => {
+          cleanUp();
+          process.exit(0);
+        });
+      } catch (err: any) {
+        console.log(chalk.red(`Error processing PPK file: ${err.message}`));
+        return;
+      }
+    }
+    args.push("-i", keyPath);
   }
 
   // Destination

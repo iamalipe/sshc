@@ -19,6 +19,7 @@ export async function listCommand(configManager: ConfigManager) {
       chalk.cyan("Host"),
       chalk.cyan("User"),
       chalk.cyan("Port"),
+      chalk.cyan("Description"),
     ],
     style: { head: [], border: [] },
   });
@@ -30,6 +31,7 @@ export async function listCommand(configManager: ConfigManager) {
       conn.host,
       conn.username,
       conn.port,
+      conn.description || "",
     ]);
   });
 

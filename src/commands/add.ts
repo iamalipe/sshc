@@ -1,6 +1,5 @@
 import chalk from "chalk";
 import inquirer from "inquirer";
-import { v4 as uuidv4 } from "uuid";
 import { ConfigManager } from "../lib/config";
 import { SSHConnection } from "../lib/types";
 
@@ -60,8 +59,16 @@ export async function addCommand(configManager: ConfigManager) {
     },
   ]);
 
+  const connections = configManager.getConnections();
+  const nextId =
+    connections.length > 0
+      ? (
+          Math.max(...connections.map((c) => parseInt(c.id) || 0)) + 1
+        ).toString()
+      : "1";
+
   const connection: SSHConnection = {
-    id: uuidv4().split("-")[0], // Short ID
+    id: nextId,
     alias: answers.alias,
     host: answers.host,
     port: parseInt(answers.port),

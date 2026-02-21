@@ -19,6 +19,7 @@ async function listCommand(configManager) {
             chalk_1.default.cyan("Host"),
             chalk_1.default.cyan("User"),
             chalk_1.default.cyan("Port"),
+            chalk_1.default.cyan("Description"),
         ],
         style: { head: [], border: [] },
     });
@@ -29,6 +30,7 @@ async function listCommand(configManager) {
             conn.host,
             conn.username,
             conn.port,
+            conn.description || "",
         ]);
     });
     console.log(table.toString());

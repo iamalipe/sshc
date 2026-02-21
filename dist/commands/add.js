@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.addCommand = addCommand;
 const chalk_1 = __importDefault(require("chalk"));
 const inquirer_1 = __importDefault(require("inquirer"));
-const uuid_1 = require("uuid");
 async function addCommand(configManager) {
     console.log(chalk_1.default.blue("Adding new SSH connection..."));
     const answers = await inquirer_1.default.prompt([
@@ -60,8 +59,12 @@ async function addCommand(configManager) {
             message: "Description (optional):",
         },
     ]);
+    const connections = configManager.getConnections();
+    const nextId = connections.length > 0
+        ? (Math.max(...connections.map((c) => parseInt(c.id) || 0)) + 1).toString()
+        : "1";
     const connection = {
-        id: (0, uuid_1.v4)().split("-")[0], // Short ID
+        id: nextId,
         alias: answers.alias,
         host: answers.host,
         port: parseInt(answers.port),

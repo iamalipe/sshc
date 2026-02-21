@@ -1,6 +1,6 @@
-# sshc - SSH Chain
+# zssh - SSH Chain
 
-**sshc** is a modern, cross-platform CLI tool to manage and connect to your SSH servers with encrypted local storage and cloud sync capabilities.
+**zssh** is a modern, cross-platform CLI tool to manage and connect to your SSH servers with encrypted local storage and cloud sync capabilities.
 
 ## Features
 
@@ -13,7 +13,7 @@
 ## Installation
 
 ```bash
-npm install -g sshc
+npm install -g @abhiseck/zssh
 ```
 
 ## Usage
@@ -21,7 +21,7 @@ npm install -g sshc
 ### Add a Connection
 
 ```bash
-sshc add
+zssh add
 ```
 
 Follow the interactive prompts to save your server details.
@@ -29,7 +29,7 @@ Follow the interactive prompts to save your server details.
 ### List Connections
 
 ```bash
-sshc list
+zssh list
 ```
 
 Displays a table of all saved connections.
@@ -37,15 +37,15 @@ Displays a table of all saved connections.
 ### Connect
 
 ```bash
-sshc connect <alias_or_id>
+zssh connect <alias_or_id>
 # Example:
-sshc connect my-server
+zssh connect my-server
 ```
 
 ### Remove a Connection
 
 ```bash
-sshc remove <alias_or_id>
+zssh remove <alias_or_id>
 ```
 
 ### Cloud Sync
@@ -55,18 +55,18 @@ To enable cloud sync, you need a GitHub Personal Access Token (PAT) with `gist` 
 **Save to Cloud:**
 
 ```bash
-sshc save
+zssh save
 ```
 
 **Sync from Cloud:**
 
 ```bash
-sshc sync
+zssh sync
 ```
 
 ## Security
 
-Your configuration is stored in `~/.sshc.json`. The entire content is encrypted. You will be prompted for your master password when running commands.
+Your configuration is stored in `~/.zssh.json`. The entire content is encrypted. You will be prompted for your master password when running commands.
 
 ## Requirements
 

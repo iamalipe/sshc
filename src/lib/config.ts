@@ -4,7 +4,7 @@ import * as path from "path";
 import { decrypt, encrypt } from "./crypto";
 import { Config, SSHConnection } from "./types";
 
-const CONFIG_PATH = path.join(os.homedir(), ".sshc.json");
+const CONFIG_PATH = path.join(os.homedir(), ".zssh.json");
 
 export class ConfigManager {
   private config: Config;

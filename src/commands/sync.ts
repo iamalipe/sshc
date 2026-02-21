@@ -35,7 +35,7 @@ export async function saveCommand(configManager: ConfigManager) {
   }
 
   const files = {
-    "sshc_config.lock": {
+    "zssh_config.lock": {
       content: encryptedContent,
     },
   };
@@ -58,7 +58,7 @@ export async function saveCommand(configManager: ConfigManager) {
       const response = await axios.post(
         `${GITHUB_API}/gists`,
         {
-          description: "SSHC Encrypted Config",
+          description: "ZSSH Encrypted Config",
           public: false,
           files,
         },
@@ -102,9 +102,9 @@ export async function syncCommand(configManager: ConfigManager) {
       headers: { Authorization: `token ${token}` },
     });
 
-    const file = response.data.files["sshc_config.lock"];
+    const file = response.data.files["zssh_config.lock"];
     if (!file) {
-      console.log(chalk.red("Invalid Gist: sshc_config.lock not found."));
+      console.log(chalk.red("Invalid Gist: zssh_config.lock not found."));
       return;
     }
 

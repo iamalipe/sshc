@@ -57,19 +57,19 @@ async function initConfig() {
 }
 
 program
-  .name("sshc")
+  .name("zssh")
   .description("SSH Chain - Encrypted SSH Connection Manager")
   .version("1.0.0")
   .addHelpText(
     "after",
     `
 Example:
-  $ sshc add
-  $ sshc list
-  $ sshc connect my-server
-  $ sshc connect 5f3a1
-  $ sshc save
-  $ sshc sync
+  $ zssh add
+  $ zssh list
+  $ zssh connect my-server
+  $ zssh connect 5f3a1
+  $ zssh save
+  $ zssh sync
 `,
   );
 

@@ -1,8 +1,8 @@
 {
-  "name": "sshc",
+  "name": "@abhiseck/zssh",
   "version": "0.0.1",
   "description": "",
-  "main": "bin/sshc.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
@@ -10,7 +10,7 @@
     "dev": "ts-node src/index.ts"
   },
   "bin": {
-    "sshc": "bin/sshc.js"
+    "zssh": "dist/index.js"
   },
   "keywords": [
     "git",
@@ -23,12 +23,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iamalipe/sshc.git"
+    "url": "git+https://github.com/iamalipe/zssh.git"
   },
   "bugs": {
-    "url": "https://github.com/iamalipe/sshc/issues"
+    "url": "https://github.com/iamalipe/zssh/issues"
   },
-  "homepage": "https://github.com/iamalipe/sshc#readme",
+  "homepage": "https://github.com/iamalipe/zssh#readme",
   "engines": {
     "node": ">=18"
   },

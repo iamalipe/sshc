@@ -7,7 +7,7 @@ export async function listCommand(configManager: ConfigManager) {
 
   if (connections.length === 0) {
     console.log(
-      chalk.yellow('No connections found. Use "sshc add" to add one.'),
+      chalk.yellow('No connections found. Use "zssh add" to add one.'),
     );
     return;
   }
